@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import * as cookie from "cookie";
 
@@ -82,36 +82,32 @@ function parseToken(token: string | null): TokenData | null {
 
 /**
  * Retrieves the encrypted token from request cookies.
- * @param req - Next.js API request object
+ * @param req - Next.js App Router request object
  * @returns The encrypted token string, or null if not found
  */
-function getEncryptedTokenFromCookies(req: NextApiRequest): string | null {
-  const cookies = req.headers.cookie ? cookie.parse(req.headers.cookie) : {};
-  return cookies[COOKIE_NAME] || null;
+function getEncryptedTokenFromCookies(req: NextRequest): string | null {
+  return req.cookies.get(COOKIE_NAME)?.value || null;
 }
 
 /**
  * Sets the encrypted access token as an HTTP-only cookie in the response.
- * @param res - Next.js API response object
+ * @param res - Next.js App Router response object
  * @param token - The access token to encrypt and set
  * @param exp - Expiration time (epoch seconds) of the token
  */
 function setEncryptedTokenCookie(
-  res: NextApiResponse,
+  res: NextResponse,
   token: string,
   exp: number
 ): void {
   const encrypted = encrypt(token);
-  res.setHeader(
-    "Set-Cookie",
-    cookie.serialize(COOKIE_NAME, encrypted, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: exp - Math.floor(Date.now() / 1000),
-    })
-  );
+  res.cookies.set(COOKIE_NAME, encrypted, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: exp - Math.floor(Date.now() / 1000),
+  });
 }
 
 /**
@@ -159,13 +155,13 @@ async function generateAccessToken(): Promise<string | null> {
  * Retrieves a valid access token from cookies or generates a new one if expired or missing.
  * Handles encryption/decryption, JWT parsing, and cookie management.
  *
- * @param req - Next.js API request object
- * @param res - Next.js API response object
+ * @param req - Next.js App Router request object
+ * @param res - Next.js App Router response object
  * @returns The valid access token string, or null if unable to retrieve
  */
 export async function getValidToken(
-  req: NextApiRequest,
-  res: NextApiResponse
+  req: NextRequest,
+  res: NextResponse
 ): Promise<string | null> {
   try {
     const encryptedToken = getEncryptedTokenFromCookies(req);

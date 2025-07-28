@@ -14,7 +14,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Copy, ChevronDown, Sparkles, Eye } from "lucide-react";
-import axios from "axios";
+import { generatePasswordFromSeed } from "@/lib/password-generator";
+import { useOrbitport } from "@/hooks/useOrbitport";
 
 interface PasswordResult {
   password: string;
@@ -23,14 +24,12 @@ interface PasswordResult {
 }
 
 interface ApiError {
-  response?: {
-    data?: {
-      error?: string;
-    };
-  };
+  message?: string;
 }
 
 export default function Home() {
+  const { getRandomSeed } = useOrbitport();
+
   const [formData, setFormData] = useState({
     length: 16,
     minUpper: 2,
@@ -65,23 +64,30 @@ export default function Home() {
     setResult(null);
 
     try {
-      const params = new URLSearchParams({
-        length: formData.length.toString(),
-        minUpper: formData.minUpper.toString(),
-        minLower: formData.minLower.toString(),
-        minNumbers: formData.minNumbers.toString(),
-        minSymbols: formData.minSymbols.toString(),
-        includeUpper: characterTypes.uppercase.toString(),
-        includeLower: characterTypes.lowercase.toString(),
-        includeNumbers: characterTypes.numbers.toString(),
-        includeSymbols: characterTypes.symbols.toString(),
+      // Fetch seed from API using the hook
+      const seedResult = await getRandomSeed();
+
+      // Generate password client-side using the seed
+      const password = generatePasswordFromSeed(seedResult.data, {
+        length: formData.length,
+        minUpper: formData.minUpper,
+        minLower: formData.minLower,
+        minNumbers: formData.minNumbers,
+        minSymbols: formData.minSymbols,
+        includeUpper: characterTypes.uppercase,
+        includeLower: characterTypes.lowercase,
+        includeNumbers: characterTypes.numbers,
+        includeSymbols: characterTypes.symbols,
       });
 
-      const response = await axios.get(`/api/generate?${params}`);
-      setResult(response.data);
+      setResult({
+        password,
+        seed: seedResult.data,
+        usedFallback: seedResult.usedFallback,
+      });
     } catch (err: unknown) {
       const apiError = err as ApiError;
-      setError(apiError.response?.data?.error || "Failed to generate password");
+      setError(apiError.message || "Failed to generate password");
     } finally {
       setIsLoading(false);
     }

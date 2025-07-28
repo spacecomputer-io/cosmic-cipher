@@ -20,52 +20,56 @@ A modern, space-themed password generator built with Next.js, TypeScript, and Ta
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
 - **Icons**: Lucide React
-- **HTTP Client**: Axios
 - **Random Generation**: OrbitPort cTRNG API
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - OrbitPort API key (optional, fallback available)
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd password-generator
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Set up environment variables:
+
 ```bash
 # Create .env.local file
 cp .env.example .env.local
 ```
 
 4. Add your OrbitPort credentials to `.env.local`:
+
 ```env
 ORBITPORT_API_URL=https://api.orbitport.io
 ORBITPORT_CLIENT_ID=your_client_id_here
 ORBITPORT_CLIENT_SECRET=your_client_secret_here
-ORBITPORT_TOKEN_URL=https://api.orbitport.io/oauth/token
+ORBITPORT_AUTH_URL=https://api.orbitport.io/oauth/token
 ```
 
 > **Note**: The app will work without OrbitPort credentials using fallback random generation, but for true cosmic randomness, get your credentials from [OrbitPort](https://orbitport.io).
 
 5. Run the development server:
+
 ```bash
 npm run dev
 ```
@@ -75,11 +79,13 @@ npm run dev
 ## Usage
 
 1. **Configure Password Settings**:
+
    - Use the slider to set password length (8-32 characters)
    - Set minimum requirements for each character type
    - Ensure total minimums don't exceed password length
 
 2. **Generate Password**:
+
    - Click "Generate Password" button
    - Wait for the API call to complete
    - View your generated password
@@ -116,7 +122,7 @@ If the OrbitPort API is unavailable (rate limit, auth error, network issue), the
 - **Uppercase**: A-Z (excluding O for clarity)
 - **Lowercase**: a-z (excluding l for clarity)
 - **Numbers**: 2-9 (excluding 0 and 1 for clarity)
-- **Symbols**: !@#$%^&*+-=
+- **Symbols**: !@#$%^&\*+-=
 
 ## Deployment
 
@@ -130,6 +136,7 @@ If the OrbitPort API is unavailable (rate limit, auth error, network issue), the
 ### Other Platforms
 
 The app can be deployed to any platform that supports Next.js:
+
 - Netlify
 - Railway
 - DigitalOcean App Platform
@@ -137,12 +144,12 @@ The app can be deployed to any platform that supports Next.js:
 
 ## Environment Variables
 
-| Variable | Description | Required | Default |
-|----------|-------------|----------|---------|
-| `ORBITPORT_API_URL` | OrbitPort API base URL | No | Fallback to local crypto |
-| `ORBITPORT_CLIENT_ID` | OAuth client ID | No | Fallback to local crypto |
-| `ORBITPORT_CLIENT_SECRET` | OAuth client secret | No | Fallback to local crypto |
-| `ORBITPORT_TOKEN_URL` | OAuth token endpoint | No | Fallback to local crypto |
+| Variable                  | Description            | Required | Default                  |
+| ------------------------- | ---------------------- | -------- | ------------------------ |
+| `ORBITPORT_API_URL`       | OrbitPort API base URL | No       | Fallback to local crypto |
+| `ORBITPORT_CLIENT_ID`     | OAuth client ID        | No       | Fallback to local crypto |
+| `ORBITPORT_CLIENT_SECRET` | OAuth client secret    | No       | Fallback to local crypto |
+| `ORBITPORT_AUTH_URL`      | OAuth token endpoint   | No       | Fallback to local crypto |
 
 ## Development
 
