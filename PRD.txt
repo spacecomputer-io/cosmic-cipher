@@ -1,0 +1,106 @@
+Simple PRD: OrbitPort Password Generator for Next.js App
+Overview
+This PRD defines a single-page password generator built as a Next.js (TypeScript) app using the OrbitPort API for cosmic true random number generation (cTRNG), as per the OrbitPort User Guide. The app resides on the root home page (/) and allows users to generate high-entropy passwords by fetching a 256-bit random seed from OrbitPort’s cTRNG API. Users can customize password length and minimum requirements (letters, numbers, symbols) via a form. The seed is fetched after user input for optimal UX (ensuring customization drives generation). The random seed is displayed in an optional dropdown for transparency. The UI uses shadcn/ui components with a space-themed, minimal tech aesthetic featuring glassmorphism and glowing effects.
+Key Features
+1. Password Generation via OrbitPort cTRNG
+
+What: Users generate a secure password on the root page (/) by fetching a random seed from OrbitPort’s cTRNG API and deriving a password based on user-specified parameters.
+How:
+User visits /, sees a form with inputs for:
+Password length (slider/input, 8-32 chars, default 16).
+Minimum number of uppercase letters, lowercase letters, numbers, symbols (number inputs, default 2 each).
+
+
+On form submission, frontend calls Next.js API route (/api/generate).
+API route authenticates to OrbitPort using API key, fetches 256-bit seed.
+Derive password: Use seed to initialize TypeScript’s crypto.getRandomValues (or equivalent) to select characters from a charset (uppercase, lowercase, digits, symbols, excluding ambiguous chars like l/1, O/0).
+Return password and seed to frontend; display password with copy button and seed in collapsible dropdown.
+
+
+Details:
+API Endpoint: https://api.orbitport.io/v1/ctrng (GET, returns hex seed).
+Auth: API key in Authorization: Bearer <key> header, stored in .env (NEXT_PUBLIC_ORBITPORT_API_KEY).
+Charset: Uppercase (A-Z), lowercase (a-z), digits (0-9), symbols (!@#$%^&*+-=).
+Fallback: If API fails (e.g., 429 rate limit, 401 auth error), use crypto.randomBytes(32) with warning.
+Validation: Ensure password meets minimum requirements; re-generate if needed.
+
+
+
+2. Space-Themed UI with shadcn/ui
+
+What: A single-page interface with a cosmic, minimal tech aesthetic using shadcn/ui components, styled with glassmorphism (frosted glass) and glowing effects.
+How:
+Components: Use shadcn/ui’s Input, Slider, Button, DropdownMenu, Card, Label for form and output.
+Styling:
+Background: Dark gradient (e.g., #0A0B1A to #1C2526) with subtle starfield effect (CSS particles or SVG).
+Glassmorphism: Form in a frosted Card (backdrop-filter: blur, rgba(255,255,255,0.1)), glowing borders (box-shadow with neon blue/purple).
+Glow: Buttons and inputs with hover glow (e.g., #00DDEB or #FF00FF neon accents).
+Typography: Sans-serif font (e.g., Inter), white or light gray text.
+
+
+Layout: Centered form with password output below; seed in a DropdownMenu labeled “View Seed”.
+Feedback: Show loading state during API call; error toast for API failures.
+
+
+
+Technical Requirements
+
+Stack: Next.js (TypeScript), App Router, Tailwind CSS, shadcn/ui components.
+Dependencies:
+axios for API calls.
+@radix-ui/react-* and shadcn/ui for UI components.
+lucide-react for icons (e.g., copy, dropdown arrow).
+
+
+API Integration:
+Endpoint: https://api.orbitport.io/v1/ctrng.
+Auth: API key in .env; handle errors (429, 401).
+Rate limit: Max 5 requests/min per IP (client-side throttling).
+
+
+Frontend (app/page.tsx):
+Form: Inputs for length, min uppercase/lowercase/numbers/symbols.
+Output: Display password with copy button; seed in dropdown.
+Validation: Client-side checks for valid inputs (e.g., length ≥ sum of minimums).
+
+
+Backend (app/api/generate/route.ts):
+API Route: GET /api/generate?length=X&minUpper=Y&minLower=Z&minNumbers=A&minSymbols=B.
+Returns: { password: string, seed: string }.
+
+
+Security:
+HTTPS for all requests.
+Never store passwords or seeds.
+Sanitize inputs to prevent injection.
+
+
+UI/UX:
+Responsive: Mobile-friendly (stacked form on small screens).
+Accessibility: ARIA labels, keyboard navigation (per shadcn/ui defaults).
+Feedback: Toast for copy success, API errors, or fallback warning.
+
+
+
+Example Workflow
+
+User visits /, sees a starry background with a frosted-glass form.
+Sets length to 20, min 3 uppercase, 3 lowercase, 2 numbers, 2 symbols; clicks “Generate”.
+Frontend calls /api/generate?length=20&minUpper=3&minLower=3&minNumbers=2&minSymbols=2.
+API fetches seed from OrbitPort, generates password (e.g., “Kj9#mP2vL8nR4jT$xQw”), returns with seed.
+Frontend shows password with copy button; user clicks dropdown to view seed (e.g., “abc123…”).
+
+Out of Scope
+
+User registration, login, or password reset.
+MFA, OAuth, JWT, or database integration.
+Non-web platforms or additional pages.
+
+Notes for Dev
+
+Reference OrbitPort User Guide for API details.
+Mock API with crypto.randomBytes(32).toString('hex') for testing without key.
+Deploy on Vercel; secure .env for API key.
+Use shadcn/ui CLI to init components (npx shadcn@latest add input slider button dropdown-menu card label).
+Style with Tailwind; add glassmorphism via backdrop-filter and glow via box-shadow.
+Test password entropy manually (ensure diverse chars); verify shadcn accessibility.
