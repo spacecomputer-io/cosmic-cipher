@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  basePath: "/password-generator",
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || "/cipher",
   reactStrictMode: true,
   output: "standalone",
   images: {

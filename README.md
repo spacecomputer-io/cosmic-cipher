@@ -1,11 +1,11 @@
-# OrbitPort Password Generator
+# Orbitport Password Generator
 
-A modern, space-themed password generator built with Next.js, TypeScript, and Tailwind CSS. This application uses the OrbitPort API for cosmic true random number generation (cTRNG) to create high-entropy passwords.
+A modern, space-themed password generator built with Next.js, TypeScript, and Tailwind CSS. This application uses the Orbitport API for cosmic true random number generation (cTRNG) to create high-entropy passwords.
 
 ## Features
 
 - 🌌 **Space-themed UI** with glassmorphism effects and glowing animations
-- 🔐 **Secure password generation** using OrbitPort's cTRNG API
+- 🔐 **Secure password generation** using Orbitport's cTRNG API
 - ⚙️ **Customizable parameters**:
   - Password length (8-32 characters)
   - Minimum uppercase letters
@@ -25,7 +25,7 @@ A modern, space-themed password generator built with Next.js, TypeScript, and Ta
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
 - **Icons**: Lucide React
-- **Random Generation**: OrbitPort cTRNG API
+- **Random Generation**: Orbitport cTRNG API
 
 ## Getting Started
 
@@ -33,7 +33,7 @@ A modern, space-themed password generator built with Next.js, TypeScript, and Ta
 
 - Node.js 18+
 - npm or yarn
-- OrbitPort API key (optional, fallback available)
+- Orbitport API key (optional, fallback available)
 
 ### Installation
 
@@ -57,7 +57,7 @@ npm install
 cp .env.example .env.local
 ```
 
-4. Add your OrbitPort credentials to `.env.local`:
+4. Add your Orbitport credentials to `.env.local`:
 
 ```env
 ORBITPORT_API_URL=https://api.orbitport.io
@@ -66,7 +66,7 @@ ORBITPORT_CLIENT_SECRET=your_client_secret_here
 ORBITPORT_AUTH_URL=https://api.orbitport.io/oauth/token
 ```
 
-> **Note**: The app will work without OrbitPort credentials using fallback random generation, but for true cosmic randomness, get your credentials from [OrbitPort](https://orbitport.io).
+> **Note**: The app will work without Orbitport credentials using fallback random generation, but for true cosmic randomness, get your credentials from [Orbitport](https://orbitport.io).
 
 5. Run the development server:
 
@@ -96,7 +96,7 @@ npm run dev
 
 ## API Integration
 
-The app integrates with the OrbitPort cTRNG API:
+The app integrates with the Orbitport cTRNG API:
 
 - **Endpoint**: `https://api.orbitport.io/api/v1/services/trng`
 - **Method**: GET
@@ -105,11 +105,11 @@ The app integrates with the OrbitPort cTRNG API:
 
 ### Fallback System
 
-If the OrbitPort API is unavailable (rate limit, auth error, network issue), the app automatically falls back to using Node.js `crypto.randomBytes()` with a warning message.
+If the Orbitport API is unavailable (rate limit, auth error, network issue), the app automatically falls back to using Node.js `crypto.randomBytes()` with a warning message.
 
 ## Password Generation Algorithm
 
-1. **Fetch Seed**: Get 256-bit random seed from OrbitPort API
+1. **Fetch Seed**: Get 256-bit random seed from Orbitport API
 2. **Validate Requirements**: Ensure minimum character requirements are met
 3. **Generate Password**:
    - Add minimum required characters from each charset
@@ -146,7 +146,7 @@ The app can be deployed to any platform that supports Next.js:
 
 | Variable                  | Description            | Required | Default                  |
 | ------------------------- | ---------------------- | -------- | ------------------------ |
-| `ORBITPORT_API_URL`       | OrbitPort API base URL | No       | Fallback to local crypto |
+| `ORBITPORT_API_URL`       | Orbitport API base URL | No       | Fallback to local crypto |
 | `ORBITPORT_CLIENT_ID`     | OAuth client ID        | No       | Fallback to local crypto |
 | `ORBITPORT_CLIENT_SECRET` | OAuth client secret    | No       | Fallback to local crypto |
 | `ORBITPORT_AUTH_URL`      | OAuth token endpoint   | No       | Fallback to local crypto |
@@ -199,7 +199,7 @@ MIT License - see LICENSE file for details.
 
 ## Acknowledgments
 
-- [OrbitPort](https://orbitport.io) for cosmic true random number generation
+- [Orbitport](https://orbitport.io) for cosmic true random number generation
 - [shadcn/ui](https://ui.shadcn.com) for beautiful UI components
 - [Lucide](https://lucide.dev) for icons
 - [Tailwind CSS](https://tailwindcss.com) for styling

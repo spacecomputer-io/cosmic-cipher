@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +23,9 @@ import { Copy, ChevronDown, Sparkles, Eye } from "lucide-react";
 import { generatePasswordFromSeed } from "@/lib/password-generator";
 import { useOrbitport } from "@/hooks/useOrbitport";
 import { Starfield } from "@/components/starfield";
+import Image from "next/image";
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/cipher";
 
 interface PasswordResult {
   password: string;
@@ -133,14 +142,19 @@ export default function Home() {
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-[#0A0B1A] via-[#1C2526] to-[#0A0B1A] overflow-hidden text-white">
       <Starfield className="absolute inset-0 overflow-hidden" />
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen py-20">
         <div className="w-full max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
           <Card className="backdrop-blur-md bg-white/10 border-white/20 shadow-2xl">
             <CardHeader className="text-center">
+              <Image
+                src={`${basePath}/space-computer.svg`}
+                alt="Space Computer Logo"
+                width={142}
+                height={48}
+                className="mx-auto mb-4 w-full max-w-64"
+              />
               <CardTitle className="text-2xl font-bold text-white flex items-center justify-center gap-2">
-                <Sparkles className="w-6 h-6 text-cyan-400" />
-                OrbitPort Password Generator
-                <Sparkles className="w-6 h-6 text-purple-400" />
+                Orbitport Password Generator
               </CardTitle>
               <p className="text-gray-300 text-sm">
                 Generate secure passwords using cosmic true random numbers
@@ -178,7 +192,7 @@ export default function Home() {
                       onCheckedChange={(checked: boolean | "indeterminate") =>
                         handleCharacterTypeChange("uppercase", checked === true)
                       }
-                      className="border-white/20 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
+                      className="border-white/20 data-[state=checked]:bg-[#FCD501] data-[state=checked]:border-[#FCD501]"
                     />
                     <Label htmlFor="uppercase" className="text-white text-sm">
                       A-Z (Uppercase)
@@ -191,7 +205,7 @@ export default function Home() {
                       onCheckedChange={(checked: boolean | "indeterminate") =>
                         handleCharacterTypeChange("lowercase", checked === true)
                       }
-                      className="border-white/20 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
+                      className="border-white/20 data-[state=checked]:bg-[#FCD501] data-[state=checked]:border-[#FCD501]"
                     />
                     <Label htmlFor="lowercase" className="text-white text-sm">
                       a-z (Lowercase)
@@ -204,7 +218,7 @@ export default function Home() {
                       onCheckedChange={(checked: boolean | "indeterminate") =>
                         handleCharacterTypeChange("numbers", checked === true)
                       }
-                      className="border-white/20 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
+                      className="border-white/20 data-[state=checked]:bg-[#FCD501] data-[state=checked]:border-[#FCD501]"
                     />
                     <Label htmlFor="numbers" className="text-white text-sm">
                       0-9 (Numbers)
@@ -217,7 +231,7 @@ export default function Home() {
                       onCheckedChange={(checked: boolean | "indeterminate") =>
                         handleCharacterTypeChange("symbols", checked === true)
                       }
-                      className="border-white/20 data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-500"
+                      className="border-white/20 data-[state=checked]:bg-[#FCD501] data-[state=checked]:border-[#FCD501]"
                     />
                     <Label htmlFor="symbols" className="text-white text-sm">
                       !@#$%^&* (Symbols)
@@ -249,7 +263,7 @@ export default function Home() {
                       min={0}
                       max={formData.length}
                       disabled={!characterTypes.uppercase}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400/20 disabled:opacity-50"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
                     />
                   </div>
                   <div className="space-y-2">
@@ -269,7 +283,7 @@ export default function Home() {
                       min={0}
                       max={formData.length}
                       disabled={!characterTypes.lowercase}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400/20 disabled:opacity-50"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
                     />
                   </div>
                   <div className="space-y-2">
@@ -289,7 +303,7 @@ export default function Home() {
                       min={0}
                       max={formData.length}
                       disabled={!characterTypes.numbers}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400/20 disabled:opacity-50"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
                     />
                   </div>
                   <div className="space-y-2">
@@ -309,7 +323,7 @@ export default function Home() {
                       min={0}
                       max={formData.length}
                       disabled={!characterTypes.symbols}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400/20 disabled:opacity-50"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
                     />
                   </div>
                 </div>
@@ -328,7 +342,7 @@ export default function Home() {
               <Button
                 onClick={handleGenerate}
                 disabled={isLoading || !isValid}
-                className="w-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-cyan-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#FCD501] hover:bg-yellow-400 text-black font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-yellow-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
@@ -362,7 +376,7 @@ export default function Home() {
                         onClick={handleCopy}
                         size="sm"
                         variant="ghost"
-                        className="text-cyan-400 hover:text-cyan-300 hover:bg-cyan-400/10"
+                        className="text-[#FCD501] hover:text-yellow-300 hover:bg-yellow-400/10"
                       >
                         <Copy className="w-4 h-4" />
                         {copied ? "Copied!" : "Copy"}
@@ -380,7 +394,7 @@ export default function Home() {
                     <DropdownMenuTrigger asChild>
                       <Button
                         variant="outline"
-                        className="w-full border-white/20 text-white hover:bg-white/10 hover:border-cyan-400"
+                        className="w-full border-white/20 text-white hover:bg-white/10 hover:border-[#FCD501]"
                       >
                         <Eye className="w-4 h-4 mr-2" />
                         View Seed
@@ -397,13 +411,19 @@ export default function Home() {
                   {/* Fallback Warning */}
                   {result.usedFallback && (
                     <div className="text-yellow-400 text-sm text-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-500/20">
-                      ⚠️ Using fallback random generation (OrbitPort API
+                      ⚠️ Using fallback random generation (Orbitport API
                       unavailable)
                     </div>
                   )}
                 </div>
               )}
             </CardContent>
+            <CardFooter className="text-center text-xs text-gray-400">
+              <p>
+                Powered by real satellites in orbit using Orbitport&apos;s
+                cEDGE/Crypto2 technology for true cosmic randomness.
+              </p>
+            </CardFooter>
           </Card>
         </div>
       </div>

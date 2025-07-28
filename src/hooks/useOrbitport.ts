@@ -1,10 +1,12 @@
 import { useCallback } from "react";
 import { RandomSeedResponse } from "@/types/orbitport";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/cipher";
+
 export function useOrbitport() {
   const getRandomSeed = useCallback(async (): Promise<RandomSeedResponse> => {
     try {
-      const response = await fetch("/password-generator/api/random");
+      const response = await fetch(`${basePath}/api/random`);
       if (!response.ok) {
         throw new Error("Failed to get random seed");
       }

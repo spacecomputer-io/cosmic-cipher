@@ -9,8 +9,8 @@ const font = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OrbitPort Password Generator",
-  description: "Generate a secure password with OrbitPort",
+  title: "Cosmic Cipher",
+  description: "Generate secure passwords with Orbitport cTRNG",
 };
 
 export default function RootLayout({

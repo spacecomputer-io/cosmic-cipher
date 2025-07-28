@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   let data: OrbitportSeedResponse | null = null;
 
   try {
-    if (!ORBITPORT_API_URL) throw new Error("Missing OrbitPort API URL");
+    if (!ORBITPORT_API_URL) throw new Error("Missing Orbitport API URL");
 
     // Create a response object for cookie setting
     const res = NextResponse.next();
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("OrbitPort API error:", errorText);
+      console.error("Orbitport API error:", errorText);
       throw new Error(`API request failed: ${response.status}`);
     }
 

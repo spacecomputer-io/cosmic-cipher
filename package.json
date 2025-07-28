@@ -1,7 +1,7 @@
 {
   "name": "orbitport-password-generator",
   "version": "1.0.0",
-  "description": "A modern, space-themed password generator using OrbitPort's cosmic true random number generation",
+  "description": "A modern, space-themed password generator using Orbitport's cosmic true random number generation",
   "private": true,
   "scripts": {
     "dev": "next dev",
