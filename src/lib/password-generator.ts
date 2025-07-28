@@ -67,12 +67,6 @@ export function generatePasswordFromSeed(
     throw new Error("At least one character type must be selected");
   }
 
-  // Calculate total minimum requirements
-  const totalMin = minUpper + minLower + minNumbers + minSymbols;
-  if (totalMin > length) {
-    throw new Error("Minimum requirements exceed password length");
-  }
-
   // Validate that minimum requirements don't exceed available character types
   if (minUpper > 0 && !includeUpper) {
     throw new Error(
@@ -93,6 +87,17 @@ export function generatePasswordFromSeed(
     throw new Error(
       "Symbols minimum requirement specified but symbols not included"
     );
+  }
+
+  // Calculate total minimum requirements ONLY for selected character types
+  const totalMin =
+    (includeUpper ? minUpper : 0) +
+    (includeLower ? minLower : 0) +
+    (includeNumbers ? minNumbers : 0) +
+    (includeSymbols ? minSymbols : 0);
+
+  if (totalMin > length) {
+    throw new Error("Minimum requirements exceed password length");
   }
 
   let password = "";

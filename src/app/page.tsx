@@ -16,6 +16,7 @@ import {
 import { Copy, ChevronDown, Sparkles, Eye } from "lucide-react";
 import { generatePasswordFromSeed } from "@/lib/password-generator";
 import { useOrbitport } from "@/hooks/useOrbitport";
+import { Starfield } from "@/components/starfield";
 
 interface PasswordResult {
   password: string;
@@ -56,6 +57,21 @@ export default function Home() {
 
   const handleCharacterTypeChange = (type: string, checked: boolean) => {
     setCharacterTypes((prev) => ({ ...prev, [type]: checked }));
+
+    // Reset minimum requirements to 0 when character type is unchecked
+    if (!checked) {
+      const fieldMap: { [key: string]: string } = {
+        uppercase: "minUpper",
+        lowercase: "minLower",
+        numbers: "minNumbers",
+        symbols: "minSymbols",
+      };
+
+      const fieldToReset = fieldMap[type];
+      if (fieldToReset) {
+        setFormData((prev) => ({ ...prev, [fieldToReset]: 0 }));
+      }
+    }
   };
 
   const handleGenerate = async () => {
@@ -105,35 +121,20 @@ export default function Home() {
     }
   };
 
+  // Calculate total minimum requirements ONLY for selected character types
   const totalMin =
-    formData.minUpper +
-    formData.minLower +
-    formData.minNumbers +
-    formData.minSymbols;
+    (characterTypes.uppercase ? formData.minUpper : 0) +
+    (characterTypes.lowercase ? formData.minLower : 0) +
+    (characterTypes.numbers ? formData.minNumbers : 0) +
+    (characterTypes.symbols ? formData.minSymbols : 0);
   const isValid =
     totalMin <= formData.length && Object.values(characterTypes).some(Boolean);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0A0B1A] via-[#1C2526] to-[#0A0B1A] relative overflow-hidden">
-      {/* Starfield Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(50)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Main Content */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
-        <div className="w-full max-w-md">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#0A0B1A] via-[#1C2526] to-[#0A0B1A] overflow-hidden text-white">
+      <Starfield className="absolute inset-0 overflow-hidden" />
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen">
+        <div className="w-full max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
           <Card className="backdrop-blur-md bg-white/10 border-white/20 shadow-2xl">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold text-white flex items-center justify-center gap-2">

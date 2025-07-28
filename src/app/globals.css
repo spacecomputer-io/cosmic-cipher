@@ -11,11 +11,6 @@
 
 /* Base styles */
 body {
-  background-image: url("/wayfinder/background.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   min-height: 100vh;
   font-family: var(--font-family-sans);
   color: white;
