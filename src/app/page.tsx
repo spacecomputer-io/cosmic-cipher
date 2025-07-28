@@ -19,11 +19,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Copy, ChevronDown, Sparkles, Eye } from "lucide-react";
+import { Copy, ChevronDown, Sparkles, Eye, Info } from "lucide-react";
 import { generatePasswordFromSeed } from "@/lib/password-generator";
 import { useOrbitport } from "@/hooks/useOrbitport";
 import { Starfield } from "@/components/starfield";
 import Image from "next/image";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/cipher";
 
@@ -240,94 +251,129 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Minimum Requirements */}
-              <div className="space-y-3">
-                <Label className="text-white text-sm font-medium">
-                  Minimum Requirements:
-                </Label>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="minUpper" className="text-white text-sm">
-                      Uppercase Letters
-                    </Label>
-                    <Input
-                      id="minUpper"
-                      type="number"
-                      value={formData.minUpper}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "minUpper",
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                      min={0}
-                      max={formData.length}
-                      disabled={!characterTypes.uppercase}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="minLower" className="text-white text-sm">
-                      Lowercase Letters
-                    </Label>
-                    <Input
-                      id="minLower"
-                      type="number"
-                      value={formData.minLower}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "minLower",
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                      min={0}
-                      max={formData.length}
-                      disabled={!characterTypes.lowercase}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="minNumbers" className="text-white text-sm">
-                      Numbers
-                    </Label>
-                    <Input
-                      id="minNumbers"
-                      type="number"
-                      value={formData.minNumbers}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "minNumbers",
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                      min={0}
-                      max={formData.length}
-                      disabled={!characterTypes.numbers}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="minSymbols" className="text-white text-sm">
-                      Symbols
-                    </Label>
-                    <Input
-                      id="minSymbols"
-                      type="number"
-                      value={formData.minSymbols}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "minSymbols",
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                      min={0}
-                      max={formData.length}
-                      disabled={!characterTypes.symbols}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
-                    />
-                  </div>
-                </div>
-              </div>
+              {/* Minimum Requirements - now inside Accordion */}
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="advanced-options">
+                  <AccordionTrigger className="text-white text-sm font-medium flex justify-start items-center gap-2">
+                    Advanced Options
+                    <span className="flex items-center ml-2">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Info
+                            className="w-4 h-4 text-gray-300 hover:text-[#FCD501] cursor-pointer"
+                            aria-label="What are minimum requirements?"
+                            tabIndex={0}
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent
+                          side="top"
+                          className="max-w-xs text-white bg-black/90 border border-white/20"
+                        >
+                          Enter the minimum number of characters for each of
+                          these categories. The password will include at least
+                          this many of each type if possible.
+                        </TooltipContent>
+                      </Tooltip>
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="grid grid-cols-2 gap-4 mt-2">
+                      <div className="space-y-2">
+                        <Label
+                          htmlFor="minUpper"
+                          className="text-white text-sm"
+                        >
+                          Uppercase Letters
+                        </Label>
+                        <Input
+                          id="minUpper"
+                          type="number"
+                          value={formData.minUpper}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "minUpper",
+                              parseInt(e.target.value) || 0
+                            )
+                          }
+                          min={0}
+                          max={formData.length}
+                          disabled={!characterTypes.uppercase}
+                          className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label
+                          htmlFor="minLower"
+                          className="text-white text-sm"
+                        >
+                          Lowercase Letters
+                        </Label>
+                        <Input
+                          id="minLower"
+                          type="number"
+                          value={formData.minLower}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "minLower",
+                              parseInt(e.target.value) || 0
+                            )
+                          }
+                          min={0}
+                          max={formData.length}
+                          disabled={!characterTypes.lowercase}
+                          className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label
+                          htmlFor="minNumbers"
+                          className="text-white text-sm"
+                        >
+                          Numbers
+                        </Label>
+                        <Input
+                          id="minNumbers"
+                          type="number"
+                          value={formData.minNumbers}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "minNumbers",
+                              parseInt(e.target.value) || 0
+                            )
+                          }
+                          min={0}
+                          max={formData.length}
+                          disabled={!characterTypes.numbers}
+                          className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label
+                          htmlFor="minSymbols"
+                          className="text-white text-sm"
+                        >
+                          Symbols
+                        </Label>
+                        <Input
+                          id="minSymbols"
+                          type="number"
+                          value={formData.minSymbols}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "minSymbols",
+                              parseInt(e.target.value) || 0
+                            )
+                          }
+                          min={0}
+                          max={formData.length}
+                          disabled={!characterTypes.symbols}
+                          className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-[#FCD501] focus:ring-[#FCD501]/20 disabled:opacity-50"
+                        />
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
 
               {/* Validation Messages */}
               {!isValid && (
