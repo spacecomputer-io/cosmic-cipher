@@ -36,8 +36,6 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/cipher";
-
 interface PasswordResult {
   password: string;
   seed: string;
@@ -95,38 +93,7 @@ export default function Home() {
   };
 
   const handleGenerate = async () => {
-    setIsLoading(true);
-    setError(null);
-    setResult(null);
-
-    try {
-      // Fetch seed from API using the hook
-      const seedResult = await getRandomSeed();
-
-      // Generate password client-side using the seed
-      const password = generatePasswordFromSeed(seedResult.data, {
-        length: formData.length,
-        minUpper: formData.minUpper,
-        minLower: formData.minLower,
-        minNumbers: formData.minNumbers,
-        minSymbols: formData.minSymbols,
-        includeUpper: characterTypes.uppercase,
-        includeLower: characterTypes.lowercase,
-        includeNumbers: characterTypes.numbers,
-        includeSymbols: characterTypes.symbols,
-      });
-
-      setResult({
-        password,
-        seed: seedResult.data,
-        usedFallback: seedResult.usedFallback,
-      });
-    } catch (err: unknown) {
-      const apiError = err as ApiError;
-      setError(apiError.message || "Failed to generate password");
-    } finally {
-      setIsLoading(false);
-    }
+    // TODO: paste the rest of this function from the blog here
   };
 
   const handleCopy = async () => {
@@ -158,7 +125,7 @@ export default function Home() {
           <Card className="backdrop-blur-md bg-white/10 border-white/20 shadow-2xl">
             <CardHeader className="text-center">
               <Image
-                src={`${basePath}/space-computer.svg`}
+                src={`/space-computer.svg`}
                 alt="Space Computer Logo"
                 width={142}
                 height={48}
