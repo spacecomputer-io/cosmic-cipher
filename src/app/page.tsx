@@ -467,7 +467,8 @@ export default function Home() {
             <CardFooter className="text-center text-xs text-gray-400">
               <p>
                 Powered by real satellites in orbit using Orbitport&apos;s
-                cEDGE/Crypto2 technology for true cosmic randomness.
+                cEDGE/Crypto2 technology for true cosmic randomness. <br />
+                Note: This is a demo and not recommended for production use.
               </p>
             </CardFooter>
           </Card>
