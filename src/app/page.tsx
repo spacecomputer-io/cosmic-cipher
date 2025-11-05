@@ -36,7 +36,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/cipher";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 interface PasswordResult {
   password: string;

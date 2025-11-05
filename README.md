@@ -49,7 +49,6 @@ ORBITPORT_AUTH_URL=https://op.spacecomputer.io
 ORBITPORT_CLIENT_ID=your-client-id
 ORBITPORT_CLIENT_SECRET=your-client-secret
 AUTH_SECRET= # 32 bytes long secret
-NEXT_PUBLIC_BASE_URL=/cipher
 ```
 
 > **Note:** The app works without Orbitport credentials using local crypto, but for true cosmic randomness, get your credentials from [Orbitport](https://docs.spacecomputer.io).

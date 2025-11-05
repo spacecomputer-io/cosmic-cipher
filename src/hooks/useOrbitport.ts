@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { RandomSeedResponse } from "@/types/orbitport";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/cipher";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 export function useOrbitport() {
   const getRandomSeed = useCallback(async (): Promise<RandomSeedResponse> => {
